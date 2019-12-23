@@ -1,0 +1,10 @@
+version: '3'
+
+services:
+  ufoweb:
+    build: .
+    tty: true
+    volumes:
+      - .:/code
+    ports:
+      - "8000:8000"
