@@ -137,4 +137,4 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-STATIC_ROOT = "E:/ufoex_static/"
+STATIC_ROOT = "ufo_ex_static/"

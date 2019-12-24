@@ -7,3 +7,5 @@ db.sqlite3
 .idea/
 /env
 /venv
+/ufo_ex_static
+/celerybeat-schedule
