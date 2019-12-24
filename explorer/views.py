@@ -157,7 +157,6 @@ def search(request):
 
 @api_view(['GET'])
 def get_status(request):
-    return Response({}, status=HTTP_200_OK) # FIXME
     b = _redis.get('latest_block')
 
     if b:

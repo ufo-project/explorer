@@ -3,6 +3,7 @@ from celery.task.schedules import crontab
 from celery.decorators import periodic_task
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import IntegrityError
+import logging
 
 import requests
 import json
@@ -14,7 +15,7 @@ import redis
 from .models import *
 
 HEIGHT_STEP = 43800
-BEAM_NODE_API = 'http://localhost:8888'
+BEAM_NODE_API = 'http://192.168.1.122:8888'
 BLOCKS_PER_DAY = 1440
 BLOCKS_STEP = 100
 
@@ -91,10 +92,11 @@ def update_blockchain():
         if height_dif < BLOCKS_STEP:
             n = BLOCKS_PER_DAY
             from_height = last_height - BLOCKS_PER_DAY
+            if from_height < 1:
+                from_height = 1
             blocks_to_check = Block.objects.filter(height__gte=str(from_height), height__lt=str(last_height))
 
         r = requests.get(BEAM_NODE_API + '/blocks?height=' + str(from_height) + '&n=' + str(n))
-        
         blocks = r.json()
         _inputs = []
         _outputs = []
