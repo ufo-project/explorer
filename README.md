@@ -2,7 +2,7 @@
 
 Requirements:
 
-1. UFO explorer node from https://github.com/ufo/ufo
+1. UFO explorer node from https://github.com/ufo-project/ufochain/releases
 2. redis
 3. Python Django 2 (backend)
 4. Celery (for periodic blockchain updates)
@@ -20,13 +20,13 @@ TODO: Add instructions
 
 `sudo apt-get install nginx python3-pip ufw python3-venv redis==2.10.6`
 
-## Start ufo-exlplorer node (testnet 3)
+## Start ufo-exlplorer node (mainnet)
 
-`./explorer-node --peer=52.76.251.61:8100`
+`./explorer-node --peer=202.181.144.43:20015`
 
 ## Pull lastest blockchain explorer code from git
 
-`git clone https://github.com/ufochain/ufoexplorer.git` or
+`git clone https://github.com/ufo-project/explorer.git` or
 `git pull origin master` to update
 
 
@@ -102,7 +102,7 @@ Add SSL certificate
      server {
        listen              443 ssl default_server;
        listen              [::]:443 ssl default_server ;
-       server_name   t2-explorer.beam.mw;
+       server_name         explorer.ufo.link;
      
        access_log /var/log/blockex-nginx-access.log;
        error_log /var/log/blockex-nginx-error.log;
@@ -136,7 +136,7 @@ You are done with the backend!!!
  https
 
 ### host: 
-mainnet-explorer.beam.mw
+explorer.ufo.link
 
 ### basePath: 
 /explorer 
