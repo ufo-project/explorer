@@ -71,9 +71,7 @@ def update_blockchain():
         # else:
         #     coins_in_circulation_treasury = current_height_step_amount * 20 * HEIGHT_STEP
 
-        # TODO
-        # for first 2 years
-        coins_in_circulation_treasury = current_height * 5
+        coins_in_circulation_treasury = 0
         _redis.set('coins_in_circulation_treasury', coins_in_circulation_treasury)
 
     # Next treasury emission coin amount
