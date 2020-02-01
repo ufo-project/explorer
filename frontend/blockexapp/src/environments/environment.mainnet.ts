@@ -2,5 +2,5 @@ export const environment = {
   production: true,
   masternet: false,
   updating: false,
-  apiBaseUrl: "https://mainnet-explorer.beam.mw"
+  apiBaseUrl: "http://202.181.144.43"
 };

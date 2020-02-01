@@ -15,7 +15,7 @@ import redis
 from .models import *
 
 HEIGHT_STEP = 43800
-BEAM_NODE_API = 'http://192.168.1.122:8888'
+BEAM_NODE_API = 'http://127.0.0.1:8888'
 BLOCKS_PER_DAY = 1440
 BLOCKS_STEP = 100
 
