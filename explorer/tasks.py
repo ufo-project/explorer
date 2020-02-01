@@ -14,7 +14,8 @@ import redis
 
 from .models import *
 
-HEIGHT_STEP = 43800
+# HEIGHT_STEP = 43800
+HEIGHT_STEP = 1051200
 BEAM_NODE_API = 'http://127.0.0.1:8888'
 BLOCKS_PER_DAY = 1440
 BLOCKS_STEP = 100
@@ -45,7 +46,8 @@ def update_blockchain():
     total_coins_emission = _redis.get('total_coins_emission')
 
     if not total_coins_emission:
-        total_coins_emission = HEIGHT_STEP * 60 * 100
+        # total_coins_emission = HEIGHT_STEP * 60 * 100
+        total_coins_emission = HEIGHT_STEP * 5 * 2
         _redis.set('total_coins_emission', total_coins_emission)
 
     # Next treasury emission block height
@@ -63,11 +65,15 @@ def update_blockchain():
     coins_in_circulation_treasury = _redis.get('coins_in_circulation_treasury')
     if (not coins_in_circulation_treasury) or (current_height_step_amount > last_height_step_amount):
 
-        if current_height_step_amount > 12:
-            coins_in_circulation_treasury = 12 * 20 * HEIGHT_STEP + \
-                                            (current_height_step_amount - 12) * 10 * HEIGHT_STEP
-        else:
-            coins_in_circulation_treasury = current_height_step_amount * 20 * HEIGHT_STEP
+        # if current_height_step_amount > 12:
+        #     coins_in_circulation_treasury = 12 * 20 * HEIGHT_STEP + \
+        #                                     (current_height_step_amount - 12) * 10 * HEIGHT_STEP
+        # else:
+        #     coins_in_circulation_treasury = current_height_step_amount * 20 * HEIGHT_STEP
+
+        # TODO
+        # for first 2 years
+        coins_in_circulation_treasury = current_height * 5
         _redis.set('coins_in_circulation_treasury', coins_in_circulation_treasury)
 
     # Next treasury emission coin amount
@@ -75,10 +81,14 @@ def update_blockchain():
     next_treasury_coin_amount = _redis.get('next_treasury_coin_amount')
     if (not next_treasury_coin_amount) or (current_height_step_amount > last_height_step_amount):
 
-        if current_height_step_amount > 12:
-            next_treasury_coin_amount = 10 * HEIGHT_STEP
-        else:
-            next_treasury_coin_amount = 20 * HEIGHT_STEP
+        # if current_height_step_amount > 12:
+        #     next_treasury_coin_amount = 10 * HEIGHT_STEP
+        # else:
+        #     next_treasury_coin_amount = 20 * HEIGHT_STEP
+
+        # TODO
+        # for first 2 years
+        next_treasury_coin_amount = 5 * HEIGHT_STEP
         _redis.set('next_treasury_coin_amount', next_treasury_coin_amount)
 
     # Retrieve missing blocks in 100 block pages
@@ -201,3 +211,4 @@ def update_charts():
     _redis.delete("monthly_graph_data")
     _redis.delete("yearly_graph_data")
     _redis.delete("all_graph_data")
+
