@@ -7,6 +7,15 @@ Requirements:
 3. Python Django 2 (backend)
 4. Celery (for periodic blockchain updates)
 5. Angular 6 with Angular Material (frontend)
+6. python3.8 is necessary
+
+# Install python3.8
+
+ `sudo add-apt-repository ppa:deadsnakes/ppa`
+ 
+ `sudo apt-get update`
+ 
+ `sudo apt-get install python3.8`
 
 # Running UFO Blockchain Explorer on local machine
 
@@ -18,7 +27,7 @@ TODO: Add instructions
 
 `sudo apt-get update`
 
-`sudo apt-get install nginx python3-pip ufw python3-venv redis==2.10.6`
+`sudo apt-get install nginx python3.8-pip ufw python3.8-venv redis-server`
 
 ## Start ufo-exlplorer node (mainnet)
 
@@ -53,7 +62,7 @@ TODO: Add instructions
 
 `sudo ufw allow 8000` (for testing only, open 8000 port in the firewall)
 
-`python3 manage.py runserver 0.0.0.0:8000 --noreload &`
+`python3 manage.py runserver 0.0.0.0:8000 --noreload &` (for testing only, open 8000 port in the firewall)
 
 ## Create gunicorn service
 
@@ -108,10 +117,14 @@ Add SSL certificate
        error_log /var/log/blockex-nginx-error.log;
      
        location / {
+         # test environment
          proxy_pass http://127.0.0.1:8000;
          proxy_set_header Host $host;
          proxy_set_header X-Real-IP $remote_addr;
          proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+         
+         # product environment
+         proxy_pass http://unix:/var/www/blockex/blockex.socks;
        }
      
        location /static/ {
