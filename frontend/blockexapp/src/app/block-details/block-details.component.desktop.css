@@ -146,7 +146,7 @@
 
 .searched-by-testnet,
 .testnet {
-    background-color: #e4d9ed !important;
+    background-color: #eff0f5 !important;
 }
 
 @media(max-width: 600px) {
