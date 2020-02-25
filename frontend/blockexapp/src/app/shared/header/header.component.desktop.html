@@ -1,7 +1,7 @@
 <mat-toolbar class="header-toolbar" [class.mainnet]=isMainnet
              [class.testnet]=!isMainnet color="primary">
     <div class="header-content">
-      <img class="header-content-logo" src="assets/ufo3.png" width=200 height=32 alt="">
+      <a href="http://ufo.link"><img class="header-content-logo" src="assets/ufo3.png" width=200 height=32 alt=""></a>
       <app-network-control *ngIf="!isMasternet"></app-network-control>
       <input autocomplete="off" class="search-header-input"
              placeholder="Search by height, hash, kernel ID"
