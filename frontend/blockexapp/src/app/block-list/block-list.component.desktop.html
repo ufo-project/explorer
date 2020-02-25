@@ -46,7 +46,7 @@
           <mat-card-subtitle class="block-card-header-title">COINS IN CIRCULATION (MINED):</mat-card-subtitle>
         </mat-card-header>
         <mat-card-content class="block-card-content">
-          <h2 class="block-card-content-title">{{status?.coins_in_circulation_mined | number:'.'}} UFOs</h2>
+          <h2 class="block-card-content-title">{{status?.coins_in_circulation_mined | number:'.'}} UFO</h2>
         </mat-card-content>
       </mat-card>
 
@@ -55,7 +55,7 @@
           <mat-card-subtitle class="block-card-header-title">COINS IN CIRCULATION (TREASURY):</mat-card-subtitle>
         </mat-card-header>
         <mat-card-content class="block-card-content">
-          <h2 class="block-card-content-title">{{status?.coins_in_circulation_treasury | number:'.'}} UFOs</h2>
+          <h2 class="block-card-content-title">{{status?.coins_in_circulation_treasury | number:'.'}} UFO</h2>
         </mat-card-content>
       </mat-card>
 
@@ -64,7 +64,7 @@
           <mat-card-subtitle class="block-card-header-title">TOTAL COINS IN CIRCULATION:</mat-card-subtitle>
         </mat-card-header>
         <mat-card-content class="block-card-content">
-          <h2 class="block-card-content-title">{{status?.total_coins_in_circulation | number:'.'}} UFOs</h2>
+          <h2 class="block-card-content-title">{{status?.total_coins_in_circulation | number:'.'}} UFO</h2>
         </mat-card-content>
       </mat-card>
 
@@ -82,7 +82,7 @@
           <mat-card-subtitle class="block-card-header-title">NEXT TREASURY EMISSION COIN AMOUNT:</mat-card-subtitle>
         </mat-card-header>
         <mat-card-content class="block-card-content">
-          <h2 class="block-card-content-title">{{status?.next_treasury_emission_coin_amount | number:'.'}} UFOs</h2>
+          <h2 class="block-card-content-title">{{status?.next_treasury_emission_coin_amount | number:'.'}} UFO</h2>
         </mat-card-content>
       </mat-card>
 
@@ -91,7 +91,7 @@
           <mat-card-subtitle class="block-card-header-title">TOTAL EMISSION:</mat-card-subtitle>
         </mat-card-header>
         <mat-card-content class="block-card-content">
-          <h2 class="block-card-content-title">{{status?.total_emission | number:'.'}} UFOs</h2>
+          <h2 class="block-card-content-title">{{status?.total_emission | number:'.'}} UFO</h2>
         </mat-card-content>
       </mat-card>
 
@@ -100,7 +100,7 @@
           <mat-card-subtitle class="block-card-header-title">HASHRATE:</mat-card-subtitle>
         </mat-card-header>
         <mat-card-content class="block-card-content">
-          <h2 class="block-card-content-title">{{status?.difficulty / 60 | number:'.'}} Hash/s</h2>
+          <h2 class="block-card-content-title">{{status?.difficulty * 16777216 / 60 | number:'.'}} Hash/s</h2>
         </mat-card-content>
       </mat-card>
     </div>
