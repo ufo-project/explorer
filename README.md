@@ -15,7 +15,7 @@ Requirements:
 
 `sudo apt-get update`
 
-`sudo apt-get install vim git wget nginx python3 python3-pip ufw python3-venv redis-server`
+`sudo apt-get install vim curl git wget nginx python3 python3-pip ufw python3-venv redis-server`
 
 ## Pull lastest blockchain explorer code from git
 
@@ -105,11 +105,15 @@ To reload nginx after config init or change `sudo systemctl restart nginx`
 
 `curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash`
 
+`export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm`
+
+
 ## Install npm and dependence
 
-`nvm i 12`
+`nvm i 13`
 
-`nvm use 12`
+`nvm use 13`
 
 `npm i`
 
