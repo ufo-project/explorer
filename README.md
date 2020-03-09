@@ -111,9 +111,9 @@ To reload nginx after config init or change `sudo systemctl restart nginx`
 
 ## Install npm and dependence
 
-`nvm i 13`
+`nvm i 12`
 
-`nvm use 13`
+`nvm use 12`
 
 `npm i`
 
