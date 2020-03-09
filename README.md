@@ -1,37 +1,21 @@
 # UFO Blockchain explorer 
 
+# Backend
+
 Requirements:
 
-1. UFO explorer node from https://github.com/ufo-project/ufochain/releases
-2. redis
-3. Python Django 2 (backend)
-4. Celery (for periodic blockchain updates)
-5. Angular 6 with Angular Material (frontend)
-6. python3.8 is necessary
+* Ubuntu 18.04
+* ufo explorer node from https://github.com/ufo-project/ufochain/releases
 
-# Install python3.8
+## Start ufo-exlplorer node (mainnet)
 
- `sudo add-apt-repository ppa:deadsnakes/ppa`
- 
- `sudo apt-get update`
- 
- `sudo apt-get install python3.8`
-
-# Running UFO Blockchain Explorer on local machine
-
-TODO: Add instructions
-
-# Deploying UFO Blockchain Explorer backend on Linux platform
+`./explorer-node --peer=mainnet-node01.ufo.link:20015`
 
 ## General Linux 
 
 `sudo apt-get update`
 
-`sudo apt-get install nginx python3.8-pip ufw python3.8-venv redis-server`
-
-## Start ufo-exlplorer node (mainnet)
-
-`./explorer-node --peer=202.181.144.43:20015`
+`sudo apt-get install vim git wget nginx python3 python3-pip ufw python3-venv redis-server`
 
 ## Pull lastest blockchain explorer code from git
 
@@ -47,12 +31,13 @@ TODO: Add instructions
 
 `source ~/venvs/blockex/bin/activate` to activate the environment
 
+`cd explorer`
+
 `pip3 install -r requirements.txt`
 
 `pip3 install gunicorn`
 
 ## Initialize Django environment (first time only)
-
 
 `python3 manage.py makemigrations`
 
@@ -64,9 +49,12 @@ TODO: Add instructions
 
 `python3 manage.py runserver 0.0.0.0:8000 --noreload &` (for testing only, open 8000 port in the firewall)
 
+## Run celery
+ `bash run_celery.sh`
+
 ## Create gunicorn service
 
-`nano /etc/systemd/system/gunicorn.service`
+`vi /etc/systemd/system/gunicorn.service`
 
 Paste following configurations:
 
@@ -77,13 +65,11 @@ Paste following configurations:
     [Service]
     User=root
     Group=www-data
-    WorkingDirectory=/var/www/blockex/
-    ExecStart=/root/venvs/blockex/bin/gunicorn --access-logfile - --workers 3 --bind unix:/var/www/blockex/blockex.sock blockex.wsgi:application
+    WorkingDirectory=/root/explorer
+    ExecStart=/root/venvs/blockex/bin/gunicorn --access-logfile - --workers 3 --bind 127.0.0.1:8000 blockex.wsgi:application
     
     [Install]
     WantedBy=multi-user.target
-
-
 
 `sudo systemctl enable gunicorn.service`
 
@@ -99,41 +85,12 @@ To reload gunicorn after config change
 
 ## Configure nginx
 
-Add SSL certificate
-
-1. `mkdir /root/keys` and `cd /root/keys`
-2. Copy certificate file and key file to /root/keys
-3. `chmod 400 ~/<certificate_key_name>.key`
-4. Create conf.d/blockex.conf `nano /etc/nginx/conf.d/blockex.conf`
-5. Paste following configurations:
-
-
-     server {
-       listen              443 ssl default_server;
-       listen              [::]:443 ssl default_server ;
-       server_name         explorer.ufo.link;
-     
-       access_log /var/log/blockex-nginx-access.log;
-       error_log /var/log/blockex-nginx-error.log;
-     
        location / {
-         # test environment
          proxy_pass http://127.0.0.1:8000;
          proxy_set_header Host $host;
          proxy_set_header X-Real-IP $remote_addr;
          proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-         
-         # product environment
-         proxy_pass http://unix:/var/www/blockex/blockex.socks;
        }
-     
-       location /static/ {
-         alias /var/www/blockex/static/;
-       }
-     
-         ssl_certificate     /root/keys/<certificate_name>.crt;
-         ssl_certificate_key   /root/keys/<certificate_key_name>.key;
-     }
       
 To test configurations run: `sudo nginx -t`
 
@@ -141,123 +98,26 @@ To reload nginx after config init or change `sudo systemctl restart nginx`
 
 `ufw sudo ufw allow 'Nginx Full'`
 
-You are done with the backend!!!
 
-# Explorer API documentation 
+# Frontend
 
-### schemes: 
- https
+## Install nvm 
 
-### host: 
-explorer.ufo.link
+`curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash`
 
-### basePath: 
-/explorer 
+## Install npm and dependence
 
-## Сoins in circulation mined value.
+`nvm i 12`
 
-Return coins in circulation mined value.
+`nvm use 12`
 
-### URL
+`npm i`
 
-/coins_in_circulation_mined/?format=json
+## Build and deploy
 
-### Method:
+`cd frontend/blockexapp`
 
-GET
+`bash deploy.sh`
 
-### Success Response:
 
-Code: 200
- 
-Content: { coins_text_value }
 
-## Coins in circulation treasury value.
-
-Return coins in circulation treasury value
-
-### URL
-
-/coins_in_circulation_treasury/?format=json
-
-### Method:
-
-GET
-
-### Success Response:
-
-Code: 200 
-
-Content: { coins_text_value }
-
-## Total coins in circulation value.
-
-Return total coins in circulation value
-
-### URL
-
-/explorer/total_coins_in_circulation/?format=json
-
-### Method:
-
-GET
-
-### Success Response:
-
-Code: 200 
-
-Content: { coins_text_value }
-
-## Next treasury emission block height value.
-
-Return next treasury emission block height value
-
-### URL
-
-/next_treasury_emission_block_height/?format=json
-
-### Method:
-
-GET
-
-### Success Response:
-
-Code: 200 
-
-Content: { height_text_value }
-
-## Next treasury emission coin amount.
-
-Return next treasury emission coin amount
-
-### URL
-
-/next_treasury_emission_coin_amount/?format=json
-
-### Method:
-
-GET
-
-### Success Response:
-
-Code: 200 
-
-Content: { coins_text_value }
-
-## Total emission value.
-
-Return total emission value
-
-### URL
-
-/total_emission/?format=json
-
-### Method:
-
-GET
-
-### Success Response:
-
-Code: 200 
-
-Content: { total_emission_text_value }
