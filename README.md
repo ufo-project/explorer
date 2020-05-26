@@ -7,7 +7,7 @@ Requirements:
 * Ubuntu 18.04
 * ufo explorer node from https://github.com/ufo-project/ufochain/releases
 
-## Start ufo-exlplorer node (mainnet)
+## Start ufo-explorer node (mainnet)
 
 ```
 ./explorer-node --peer=mainnet-node01.ufo.link:20015
