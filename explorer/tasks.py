@@ -15,10 +15,11 @@ import redis
 from .models import *
 
 # HEIGHT_STEP = 43800
-HEIGHT_STEP = 1051200
+HEIGHT_STEP = 1050000
 BEAM_NODE_API = 'http://127.0.0.1:8888'
 BLOCKS_PER_DAY = 1440
 BLOCKS_STEP = 100
+REWARD_HALF_FORK_HEIGHT = 202801
 
 
 @periodic_task(run_every=(crontab(minute='*/1')), name="update_blockchain", ignore_result=True)
@@ -47,7 +48,13 @@ def update_blockchain():
 
     if not total_coins_emission:
         # total_coins_emission = HEIGHT_STEP * 60 * 100
-        total_coins_emission = HEIGHT_STEP * 5 * 2
+        # total_coins_emission = HEIGHT_STEP * 5 * 2
+
+        total_coins_period1_before_fork = (REWARD_HALF_FORK_HEIGHT - 1) * 5
+        total_coins_period1_after_fork = (HEIGHT_STEP + 1 - REWARD_HALF_FORK_HEIGHT) * 2.5
+        total_coins_others = 1.25 * HEIGHT_STEP * 2
+
+        total_coins_emission = total_coins_period1_before_fork + total_coins_period1_after_fork + total_coins_others
         _redis.set('total_coins_emission', total_coins_emission)
 
     # Next treasury emission block height
@@ -57,7 +64,8 @@ def update_blockchain():
 
     next_treasury_emission_height = _redis.get('next_treasury_emission_height')
     if not next_treasury_emission_height or (current_height_step_amount > last_height_step_amount):
-        next_treasury_emission_height = (current_height_step_amount + 1) * HEIGHT_STEP
+        # next_treasury_emission_height = (current_height_step_amount + 1) * HEIGHT_STEP
+        next_treasury_emission_height = 0
         _redis.set('next_treasury_emission_height', next_treasury_emission_height)
 
     # Coins in circulation treasury
@@ -84,16 +92,14 @@ def update_blockchain():
         # else:
         #     next_treasury_coin_amount = 20 * HEIGHT_STEP
 
-        # TODO
-        # for first 2 years
-        next_treasury_coin_amount = 5 * HEIGHT_STEP
+        next_treasury_coin_amount = 0
         _redis.set('next_treasury_coin_amount', next_treasury_coin_amount)
 
     # Retrieve missing blocks in 100 block pages
 
     while (last_height < current_height + BLOCKS_STEP):
         height_dif = current_height - last_height
-        
+
         blocks_to_check = False
         n = BLOCKS_STEP
         from_height = last_height
@@ -111,7 +117,7 @@ def update_blockchain():
         _kernels = []
         new_values = False
         fork_detected = False
-        
+
         for _block in blocks:
 
             if 'found' in _block and _block['found'] is False:

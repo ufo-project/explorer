@@ -73,7 +73,7 @@ export class ChartsComponentMobile implements OnInit {
 
   blocksChartTypes = [
       {num: 1, name: "BLOCKS AND DIFFICULTY", tooltip: "Average difficulty", isSelected: true},
-      {num: 0, name: "BLOCKS AND HASH RATE", tooltip: "Average hash rate", isSelected: false}
+      // {num: 0, name: "BLOCKS AND HASH RATE", tooltip: "Average hash rate", isSelected: false}
   ];
 
   selectedPeriodBlocks = this.chartPeriods[1];
