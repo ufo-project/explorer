@@ -19,7 +19,7 @@ HEIGHT_STEP = 1050000
 BEAM_NODE_API = 'http://127.0.0.1:8888'
 BLOCKS_PER_DAY = 1440
 BLOCKS_STEP = 100
-REWARD_HALF_FORK_HEIGHT = 202801
+# REWARD_HALF_FORK_HEIGHT = 202801
 
 
 @periodic_task(run_every=(crontab(minute='*/1')), name="update_blockchain", ignore_result=True)
@@ -48,13 +48,13 @@ def update_blockchain():
 
     if not total_coins_emission:
         # total_coins_emission = HEIGHT_STEP * 60 * 100
-        # total_coins_emission = HEIGHT_STEP * 5 * 2
+        total_coins_emission = HEIGHT_STEP * 5 * 2
 
-        total_coins_period1_before_fork = (REWARD_HALF_FORK_HEIGHT - 1) * 5
-        total_coins_period1_after_fork = (HEIGHT_STEP + 1 - REWARD_HALF_FORK_HEIGHT) * 2.5
-        total_coins_others = 1.25 * HEIGHT_STEP * 2
+        # total_coins_period1_before_fork = (REWARD_HALF_FORK_HEIGHT - 1) * 5
+        # total_coins_period1_after_fork = (HEIGHT_STEP + 1 - REWARD_HALF_FORK_HEIGHT) * 2.5
+        # total_coins_others = 1.25 * HEIGHT_STEP * 2
+        # total_coins_emission = total_coins_period1_before_fork + total_coins_period1_after_fork + total_coins_others
 
-        total_coins_emission = total_coins_period1_before_fork + total_coins_period1_after_fork + total_coins_others
         _redis.set('total_coins_emission', total_coins_emission)
 
     # Next treasury emission block height
