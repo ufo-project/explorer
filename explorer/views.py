@@ -83,7 +83,7 @@ def get_block_range(request):
                 fee = offset_blocks.aggregate(Sum('fee'))['fee__sum']
 
                 hashrate = avg_diff / 60
-                hashrate = hashrate << 24
+                hashrate = hashrate * (2 ** 24)
                 date = BlockHeaderSerializer(offset_blocks.last()).data['timestamp']
 
                 result['items'].insert(0, {
